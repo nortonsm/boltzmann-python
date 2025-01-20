@@ -7,18 +7,17 @@ import matplotlib.pyplot as plt
 # Global variables
 # -----------------
 collision_count = 0
-cumulative_counts = [0]*9  # For coin counts 0..8
+cumulative_counts = [0] * 9  # For coin counts 0..8
 
 # --- Constants ---
 WIDTH, HEIGHT = 800, 600   # Size of the Pygame window
 FPS = 60                   # Frames per second
 DISK_RADIUS = 40           # Radius of each disk
-DISK_COUNT = 6
-MAX_COINS_PER_DISK = 8
-#DISK_COUNT = 3
-#MAX_COINS_PER_DISK = 4 
-
-
+DISK_COUNT = 3             # Number of disks (balls)
+MAX_COINS_PER_DISK = 4     # Maximum number of coins (energy units) per disk
+SPEED_FACTOR = 5.0         # Speed factor for disks (1.0 = normal speed)
+EPSILON = 1e-5             # Small value to avoid division by zero
+N = 100                    # Print y-values every N collisions
 
 # -----------------
 # Disk class
@@ -27,8 +26,8 @@ class Disk:
     def __init__(self, x, y, vx, vy, radius, coin_count=0):
         self.x = x
         self.y = y
-        self.vx = vx
-        self.vy = vy
+        self.vx = vx * SPEED_FACTOR  # Apply speed factor
+        self.vy = vy * SPEED_FACTOR  # Apply speed factor
         self.radius = radius
         self.coin_count = coin_count
     
@@ -77,6 +76,9 @@ def handle_disk_collision(disk1, disk2):
     """
     dist = distance(disk1, disk2)
     if dist < disk1.radius + disk2.radius:
+        # Avoid division by zero by adding a small epsilon
+        dist = max(dist, EPSILON)
+
         # --- Simple elastic collision for equal masses ---
         nx = (disk2.x - disk1.x) / dist
         ny = (disk2.y - disk1.y) / dist
@@ -124,26 +126,33 @@ def update_plot(disks, lines, xdata, ydata, ax):
     global collision_count, cumulative_counts
 
     # Count how many disks are in each coin state
-    counts = [0]*9
+    counts = [0] * (MAX_COINS_PER_DISK + 1)
     for d in disks:
         counts[d.coin_count] += 1
 
     # Update global cumulative sums
-    for i in range(9):
+    for i in range(len(counts)):
         cumulative_counts[i] += counts[i]
 
-    # Update the running average fraction for each coin count
-    for i in range(9):
+    # Update the running average number of disks for each coin count
+    for i in range(len(counts)):
         xdata[i].append(collision_count)
-        frac = cumulative_counts[i] / (DISK_COUNT * collision_count)
-        ydata[i].append(frac)
+        avg = cumulative_counts[i] / collision_count
+        ydata[i].append(avg)
         lines[i].set_xdata(xdata[i])
         lines[i].set_ydata(ydata[i])
 
     # Dynamically adjust the plot range
     ax.set_xlim(0, max(10, collision_count))
+    ax.set_ylim(0, DISK_COUNT)  # Y-axis now goes from 0 to DISK_COUNT
     ax.relim()
     ax.autoscale_view(False, True, True)
+
+    # Print y-values every N collisions
+    if collision_count % N == 0:
+        print(f"\nCollision # {collision_count}")
+        for i in range(len(counts)):
+            print(f"{i} coins: {ydata[i][-1]:.2f}")
 
     plt.draw()
     plt.pause(0.001)
@@ -159,45 +168,40 @@ def main():
 
     font = pygame.font.SysFont(None, 24)
 
-    # 1 disk with 8 coins, 5 disks with 0 coins
-    coin_distribution = [8, 0, 0, 0, 0, 0]
+    # Initialize disks with one disk having all coins and others having 0
+    coin_distribution = [MAX_COINS_PER_DISK] + [0] * (DISK_COUNT - 1)
     disks = []
     for i in range(DISK_COUNT):
         x = random.randint(DISK_RADIUS, WIDTH - DISK_RADIUS)
         y = random.randint(DISK_RADIUS, HEIGHT - DISK_RADIUS)
-        vx = random.uniform(-400, 400)
-        vy = random.uniform(-400, 400)
+        vx = random.uniform(-400, 400) * SPEED_FACTOR
+        vy = random.uniform(-400, 400) * SPEED_FACTOR
         disk = Disk(x, y, vx, vy, DISK_RADIUS, coin_count=coin_distribution[i])
         disks.append(disk)
 
     # --- Matplotlib Setup for dynamic plotting ---
     plt.ion()
     fig, ax = plt.subplots()
-
-    # For macOS + some Matplotlib backends, this line doesn't work. Instead do:
-    # fig.canvas.manager.set_window_title("Running Average of Coin Counts")
-    #
-    # Or just remove it if it fails:
     fig.canvas.manager.set_window_title("Running Average of Coin Counts")
 
-    # We'll keep 9 lines for coin counts 0..8
+    # We'll keep lines for coin counts 0..MAX_COINS_PER_DISK
     lines = []
-    xdata = [[] for _ in range(9)]
-    ydata = [[] for _ in range(9)]
+    xdata = [[] for _ in range(MAX_COINS_PER_DISK + 1)]
+    ydata = [[] for _ in range(MAX_COINS_PER_DISK + 1)]
     colors = [
         "tab:blue", "tab:orange", "tab:green", "tab:red", "tab:purple",
         "tab:brown", "tab:pink", "tab:gray", "tab:olive"
     ]
-    labels = [f"{i} coins" for i in range(9)]
-    for i in range(9):
+    labels = [f"{i} coins" for i in range(MAX_COINS_PER_DISK + 1)]
+    for i in range(MAX_COINS_PER_DISK + 1):
         (line,) = ax.plot([], [], color=colors[i], label=labels[i])
         lines.append(line)
 
     ax.set_xlim(0, 10)
-    ax.set_ylim(0, 1.0)
+    ax.set_ylim(0, DISK_COUNT)  # Y-axis now goes from 0 to DISK_COUNT
     ax.legend(loc="upper right")
     ax.set_xlabel("Collision Count")
-    ax.set_ylabel("Running Average Fraction of Disks")
+    ax.set_ylabel("Running Average Number of Disks")
 
     running = True
     while running:
@@ -232,4 +236,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
