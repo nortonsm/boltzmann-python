@@ -1,4 +1,3 @@
-```markdown
 # Uniform Probability Redistribution Algorithm
 
 This document describes the **Uniform Probability Redistribution Algorithm** used in the simulation. Unlike the previous approaches, this algorithm ensures that all possible energy redistributions between two disks are equally likely during a collision. This approach eliminates any bias introduced by the order of processing and ensures that the system evolves toward the correct Boltzmann distribution.
@@ -139,4 +138,4 @@ These results are very close to the theoretical values, demonstrating the effect
 ---
 
 This algorithm represents a significant improvement over the previous approaches, ensuring that the simulation aligns with theoretical expectations.
-```
+
