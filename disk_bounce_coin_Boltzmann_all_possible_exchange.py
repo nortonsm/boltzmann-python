@@ -90,26 +90,21 @@ def handle_disk_collision(disk1, disk2):
         disk2.vx += (v1n - v2n) * nx
         disk2.vy += (v1n - v2n) * ny
 
-        # --- Coin exchange ---
-        # Calculate coins moving from disk1 to disk2
-        coins_moving_to_disk2 = 0
-        for _ in range(disk1.coin_count):
-            if random.random() < 0.5:
-                coins_moving_to_disk2 += 1
+        # --- Uniform probability coin exchange ---
+        total_coins = disk1.coin_count + disk2.coin_count
 
-        # Calculate coins moving from disk2 to disk1
-        coins_moving_to_disk1 = 0
-        for _ in range(disk2.coin_count):
-            if random.random() < 0.5:
-                coins_moving_to_disk1 += 1
+        # Generate all possible redistributions of coins between the two disks
+        possible_redistributions = []
+        for coins_in_disk1 in range(total_coins + 1):
+            coins_in_disk2 = total_coins - coins_in_disk1
+            if coins_in_disk1 <= MAX_COINS_PER_DISK and coins_in_disk2 <= MAX_COINS_PER_DISK:
+                possible_redistributions.append((coins_in_disk1, coins_in_disk2))
 
-        # Apply the changes simultaneously
-        disk1.coin_count = disk1.coin_count - coins_moving_to_disk2 + coins_moving_to_disk1
-        disk2.coin_count = disk2.coin_count - coins_moving_to_disk1 + coins_moving_to_disk2
+        # Randomly select one of the possible redistributions
+        selected_redistribution = random.choice(possible_redistributions)
 
-        # Clamp coin counts
-        disk1.coin_count = min(disk1.coin_count, MAX_COINS_PER_DISK)
-        disk2.coin_count = min(disk2.coin_count, MAX_COINS_PER_DISK)
+        # Apply the selected redistribution
+        disk1.coin_count, disk2.coin_count = selected_redistribution
 
         return True
     return False
