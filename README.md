@@ -81,7 +81,7 @@ def handle_disk_collision(disk1, disk2):
 
 ---
 
-## Example: 3 Disks and 4 Coins
+## Example 1: 3 Disks and 4 Coins
 
 ### Theoretical Results
 For a system with **3 disks** and **4 coins**, the expected average number of disks with each energy level (`n(E_i)`) is:
@@ -116,6 +116,79 @@ These results are very close to the theoretical values, demonstrating the effect
 
 ---
 
+## Example 2: 6 Disks and 8 Coins
+
+### Theoretical Results
+For a system with **6 disks** and **8 coins**, the expected average number of disks with each energy level (`n(E_i)`) is derived from the Boltzmann distribution. The theoretical values are:
+
+| Energy Level | Theoretical (`n(E_i)`) |
+|--------------|------------------------|
+| `E_0`        | 2.31                  |
+| `E_1`        | 1.54                  |
+| `E_2`        | 0.98                  |
+| `E_3`        | 0.59                  |
+| `E_4`        | 0.33                  |
+| `E_5`        | 0.16                  |
+| `E_6`        | 0.07                  |
+| `E_7`        | 0.02                  |
+| `E_8`        | 0.00                  |
+
+These values are calculated based on the number of microstates and their probabilities, as shown in the full macrostate table below:
+
+---
+
+### Full Macrostate Table for 6 Disks and 8 Coins
+
+| Macrostate | 0ΔE | 1ΔE | 2ΔE | 3ΔE | 4ΔE | 5ΔE | 6ΔE | 7ΔE | 8ΔE | Number of Microstates | Probability (`P_i`) |
+|------------|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----------------------|---------------------|
+| 1          | 5.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 1.0 | 6.0                   | 0.004662            |
+| 2          | 4.0 | 1.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 1.0 | 0.0 | 30.0                  | 0.02331             |
+| 3          | 4.0 | 0.0 | 1.0 | 0.0 | 0.0 | 0.0 | 1.0 | 0.0 | 0.0 | 30.0                  | 0.02331             |
+| 4          | 4.0 | 0.0 | 0.0 | 1.0 | 0.0 | 1.0 | 0.0 | 0.0 | 0.0 | 30.0                  | 0.02331             |
+| 5          | 4.0 | 0.0 | 0.0 | 0.0 | 2.0 | 0.0 | 0.0 | 0.0 | 0.0 | 15.0                  | 0.011655            |
+| 6          | 3.0 | 2.0 | 0.0 | 0.0 | 0.0 | 0.0 | 1.0 | 0.0 | 0.0 | 60.0                  | 0.04662             |
+| 7          | 3.0 | 1.0 | 1.0 | 0.0 | 0.0 | 1.0 | 0.0 | 0.0 | 0.0 | 120.0                 | 0.09324             |
+| 8          | 3.0 | 1.0 | 0.0 | 1.0 | 1.0 | 0.0 | 0.0 | 0.0 | 0.0 | 120.0                 | 0.09324             |
+| 9          | 3.0 | 0.0 | 2.0 | 0.0 | 1.0 | 0.0 | 0.0 | 0.0 | 0.0 | 60.0                  | 0.04662             |
+| 10         | 3.0 | 0.0 | 1.0 | 2.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 60.0                  | 0.04662             |
+| 11         | 2.0 | 3.0 | 0.0 | 0.0 | 0.0 | 1.0 | 0.0 | 0.0 | 0.0 | 60.0                  | 0.04662             |
+| 12         | 2.0 | 2.0 | 1.0 | 0.0 | 1.0 | 0.0 | 0.0 | 0.0 | 0.0 | 180.0                 | 0.13986             |
+| 13         | 2.0 | 2.0 | 0.0 | 2.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 90.0                  | 0.06993             |
+| 14         | 2.0 | 1.0 | 2.0 | 1.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 180.0                 | 0.13986             |
+| 15         | 2.0 | 0.0 | 4.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 15.0                  | 0.011655            |
+| 16         | 1.0 | 4.0 | 0.0 | 0.0 | 1.0 | 0.0 | 0.0 | 0.0 | 0.0 | 30.0                  | 0.02331             |
+| 17         | 1.0 | 3.0 | 1.0 | 1.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 120.0                 | 0.09324             |
+| 18         | 1.0 | 2.0 | 3.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 60.0                  | 0.04662             |
+| 19         | 0.0 | 5.0 | 0.0 | 1.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 6.0                   | 0.004662            |
+| 20         | 0.0 | 4.0 | 2.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 15.0                  | 0.011655            |
+
+---
+
+### Simulation Results
+The simulation using the **Uniform Probability Redistribution Algorithm** closely aligns with the theoretical predictions. Below is a plot showing the convergence of the simulation over time:
+
+![Simulation Results](6balls_8coins-energy_convergence.png)
+
+#### Key Observations:
+- **Convergence**: The simulation converges to the expected values after a sufficient number of collisions.
+- **Stability**: The values remain stable around the theoretical predictions as the collision count increases.
+
+#### Example Output:
+At **Collision # 6400**, the average number of disks with each energy level is:
+- `0 coins: 2.31`
+- `1 coins: 1.54`
+- `2 coins: 0.96`
+- `3 coins: 0.61`
+- `4 coins: 0.35`
+- `5 coins: 0.14`
+- `6 coins: 0.06`
+- `7 coins: 0.03`
+- `8 coins: 0.01`
+
+These results are very close to the theoretical values, demonstrating the effectiveness of the algorithm.
+
+---
+
 ## Summary of Key Features
 
 | Feature | Description |
@@ -138,4 +211,3 @@ These results are very close to the theoretical values, demonstrating the effect
 ---
 
 This algorithm represents a significant improvement over the previous approaches, ensuring that the simulation aligns with theoretical expectations.
-
