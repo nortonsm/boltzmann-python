@@ -91,25 +91,22 @@ def handle_disk_collision(disk1, disk2):
         disk2.vy += (v1n - v2n) * ny
 
         # --- Coin exchange ---
-        total_coins_disk1 = disk1.coin_count
-        total_coins_disk2 = disk2.coin_count
-
-        # For disk1's coins:
+        # Calculate coins moving from disk1 to disk2
         coins_moving_to_disk2 = 0
-        for _ in range(total_coins_disk1):
+        for _ in range(disk1.coin_count):
             if random.random() < 0.5:
                 coins_moving_to_disk2 += 1
-        disk1.coin_count -= coins_moving_to_disk2
-        disk2.coin_count += coins_moving_to_disk2
-        
-        # For disk2's coins:
+
+        # Calculate coins moving from disk2 to disk1
         coins_moving_to_disk1 = 0
-        for _ in range(total_coins_disk2):
+        for _ in range(disk2.coin_count):
             if random.random() < 0.5:
                 coins_moving_to_disk1 += 1
-        disk2.coin_count -= coins_moving_to_disk1
-        disk1.coin_count += coins_moving_to_disk1
-        
+
+        # Apply the changes simultaneously
+        disk1.coin_count = disk1.coin_count - coins_moving_to_disk2 + coins_moving_to_disk1
+        disk2.coin_count = disk2.coin_count - coins_moving_to_disk1 + coins_moving_to_disk2
+
         # Clamp coin counts
         disk1.coin_count = min(disk1.coin_count, MAX_COINS_PER_DISK)
         disk2.coin_count = min(disk2.coin_count, MAX_COINS_PER_DISK)
