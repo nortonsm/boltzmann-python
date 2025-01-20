@@ -13,8 +13,8 @@ cumulative_counts = [0] * 9  # For coin counts 0..8
 WIDTH, HEIGHT = 800, 600   # Size of the Pygame window
 FPS = 60                   # Frames per second
 DISK_RADIUS = 40           # Radius of each disk
-DISK_COUNT = 3             # Number of disks (balls)
-MAX_COINS_PER_DISK = 4     # Maximum number of coins (energy units) per disk
+DISK_COUNT = 6             # Number of disks (balls)
+MAX_COINS_PER_DISK = 8     # Maximum number of coins (energy units) per disk
 SPEED_FACTOR = 5.0         # Speed factor for disks (1.0 = normal speed)
 EPSILON = 1e-5             # Small value to avoid division by zero
 N = 100                    # Print y-values every N collisions
