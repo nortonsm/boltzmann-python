@@ -1,4 +1,3 @@
-```markdown
 # Symmetrical Interaction Algorithm
 
 This document describes the **Symmetrical Interaction Algorithm** used in the simulation. Unlike the original asymmetrical approach, this algorithm ensures that the coin exchange between two disks is processed simultaneously, eliminating the order dependency. However, as shown in the results, this approach still deviates from the theoretical Boltzmann distribution, particularly in the dominance of `n(E_1)` over `n(E_0)`.
