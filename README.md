@@ -1,4 +1,3 @@
-```markdown
 # Asymmetrical Coin Exchange Algorithm (Original Implementation)
 
 This document describes the original coin exchange algorithm used in the simulation. **The interaction is asymmetrical** because the order in which disks are processed affects the outcome of the energy exchange. This asymmetry leads to deviations from the theoretical Boltzmann distribution, particularly in the dominance of `n(E_1)` over `n(E_0)`.
@@ -120,4 +119,4 @@ These results show that `n(E_1)` is significantly larger than `n(E_0)`, which co
 ## Conclusion
 
 The **Asymmetrical Coin Exchange Algorithm** introduces significant bias due to its order dependency, leading to deviations from the theoretical Boltzmann distribution. The dominance of `n(E_1)` over `n(E_0)` highlights the need for a more robust exchange mechanism, such as the **Uniform Probability Redistribution Algorithm**, which aligns closely with theoretical predictions.
-```
+
